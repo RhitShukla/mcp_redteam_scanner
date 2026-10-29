@@ -10,7 +10,7 @@ A complete, professor-ready demo environment: a **good-looking e-commerce storef
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    vuln_app (port 8000)                 │
+│                    NEXUS Lab (port 8000)                    │
 ├─────────────────────────────────────────────────────────────┤
 │  GET  /              → NEXUS e-commerce SPA (HTML/JS/CSS)   │
 │  GET  /static/*      → Static assets                        │
@@ -23,7 +23,7 @@ A complete, professor-ready demo environment: a **good-looking e-commerce storef
 **Folder layout**
 
 ```
-vuln_app/
+.
 ├── main.py                 # Starlette app: frontend + agent chat + mounts MCP SSE at /mcp/sse
 ├── mcp_server.py           # MCP server: 11 tools, 3 resources, 1 prompt (all deliberately flawed)
 ├── static/
@@ -40,7 +40,7 @@ vuln_app/
 
 ```bash
 # Terminal 1 — start the lab
-cd /home/rhit/labs/vuln_app
+cd /home/rhit/labs/mcp_redteam_scanner
 /home/rhit/labs/MCPRedTeam/.venv/bin/python main.py
 # Server runs on http://localhost:8000
 
