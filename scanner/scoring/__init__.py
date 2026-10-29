@@ -1,1 +1,0 @@
-# scanner.scoring — Severity scoring
