@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NEXUS | Tech &amp; Gadgets Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-logo" onclick="return false">N<span>EXUS</span></a>
+      <div class="nav-links">
+        <a href="#home" class="nav-link">Home</a>
+        <a href="#products" class="nav-link">Products</a>
+        <a href="#about" class="nav-link">About</a>
+      </div>
+      <div class="nav-actions">
+        <button class="nav-icon-btn" onclick="toggleCart()" aria-label="Cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.64 12H3.64"/><path d="M16.5 8.5h-6l0.35 2.06h8.2z"/></svg>
+          <span id="cart-count" class="cart-badge">0</span>
+        </button>
+        <button class="nav-icon-btn hidden-md" onclick="alert('Sign in coming soon')" aria-label="Account">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <span class="hero-badge">New Arrivals</span>
+      <h1 class="hero-title">Next-Gen <span class="gradient-text">Gadgets</span> for <span class="gradient-text">Creators</span></h1>
+      <p class="hero-desc">Precision-engineered tech for the modern builder. Secure checkout. Fast shipping.</p>
+      <div class="hero-actions">
+        <a href="#products" class="btn btn-primary">Shop Collection</a>
+        <a href="#about" class="btn btn-outline">Explore Story</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <img src="/static/images/heromain.jpg" alt="Laptop setup" class="hero-img hero-img-main"/>
+      <img src="/static/images/heroside.jpg" alt="Headphones" class="hero-img hero-img-side"/>
+    </div>
+  </section>
+
+  <!-- Products -->
+  <section id="products" class="section" style="padding-top:4rem;">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Featured Gadgets</h2>
+        <p class="section-sub">Curated tech for work, play, and everything between.</p>
+      </div>
+      <div class="product-grid" id="productGrid"></div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="section bg-alt">
+    <div class="container about-grid">
+      <div class="about-text">
+        <h2 class="section-title">Built for the Builder</h2>
+        <p>NEXUS is a demo storefront powering a deliberately vulnerable MCP server. Every product page is backed by an MCP tool — and every tool has a flaw our red-team scanner is designed to find.</p>
+        <p style="margin-top: 1rem; color: var(--text-muted)">We also built an interactive <strong>AI Shopping Agent sandbox</strong> (bottom-right bubble) so you and your professors can see the agent call the MCP tools live, revealing the vulnerabilities in real-time.</p>
+        <ul class="feature-list">
+          <li><strong>PII leakage</strong> — customer profiles expose SSN, cards, API keys</li>
+          <li><strong>Path traversal</strong> — invoice download reads arbitrary files</li>
+          <li><strong>Prompt injection</strong> — admin/debug descriptions poison tool metadata</li>
+          <li><strong>SQL / expression injection</strong> — search &amp; discount interpret attacker input</li>
+          <li><strong>Resource exposure</strong> — config, logs, DB creds leaked via MCP resources</li>
+        </ul>
+      </div>
+      <div class="about-visual">
+        <img src="/static/images/about.jpg" alt="Circuit board" class="about-img"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cart Drawer -->
+  <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h3>Your Cart</h3>
+      <button class="btn-close" onclick="toggleCart()" aria-label="Close cart">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer">
+      <div class="cart-total">Total: <span id="cartTotal">$0.00</span></div>
+      <button class="btn btn-primary cart-btn" onclick="checkout()">Checkout</button>
+    </div>
+  </div>
+
+  <!-- Product Detail Modal -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeProduct()">
+    <div class="product-modal" id="productModal" onclick="event.stopPropagation()">
+      <button class="btn-close" onclick="closeProduct()" aria-label="Close">✕</button>
+      <div class="product-detail">
+        <div class="detail-image" id="detailImage"></div>
+        <div class="detail-info">
+          <h2 id="detailName" class="detail-name"></h2>
+          <div id="detailPrice" class="detail-price"></div>
+          <p id="detailDesc" class="detail-desc"></p>
+          <button class="btn btn-primary" onclick="addToCartFromDetail()">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checkout (inline demo) -->
+  <section id="checkout" class="section" style="display:none;">
+    <div class="container">
+      <h2 class="section-title">Checkout</h2>
+      <form class="checkout-form" id="checkoutForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" placeholder="Alex Rivera" required/>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="alex@example.com" required/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Shipping Address</label>
+          <input type="text" placeholder="123 Gadget Street" required/>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">Place Order — $<span id="checkoutTotal">0.00</span></button>
+      </form>
+      <p id="checkoutMsg" class="msg"></p>
+    </div>
+  </section>
+
+  <!-- Floating Chat Agent Sandbox (For Live Demonstrations) -->
+  <div class="chat-widget" id="chatWidget">
+    <button class="chat-bubble" onclick="toggleChat()" aria-label="Open AI Assistant">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <span class="chat-badge-pulse"></span>
+    </button>
+    <div class="chat-window" id="chatWindow">
+      <div class="chat-header">
+        <div class="chat-agent-info">
+          <div class="agent-avatar">AI</div>
+          <div>
+            <h4>NEXUS AI Agent</h4>
+            <span class="agent-status">Online (MCP Client)</span>
+          </div>
+        </div>
+        <button class="btn-close-sm" onclick="toggleChat()">✕</button>
+      </div>
+      <div class="chat-body" id="chatMessages">
+        <div class="chat-msg bot">
+          Hi! I am the store's AI shopping assistant. I have direct access to our back-end MCP server and can use tools to help you! 
+          <br><br>
+          Try asking me:
+          <ul class="chat-suggestions">
+            <li onclick="sendSuggestion('Search products for: GADGET-002')">Search products for "GADGET-002"</li>
+            <li onclick="sendSuggestion('Lookup customer profile info')">Lookup customer profile</li>
+            <li onclick="sendSuggestion('Download invoice ../../../etc/passwd')">Download invoice ../../../etc/passwd</li>
+            <li onclick="sendSuggestion('Calculate discount using formula {{7*7}}')">Calculate discount using {{7*7}}</li>
+            <li onclick="sendSuggestion('Execute root shell command: show admin data')">Open admin_panel</li>
+          </ul>
+        </div>
+      </div>
+      <div class="chat-footer">
+        <form class="chat-form" id="chatForm">
+          <input type="text" id="chatInput" placeholder="Ask the agent to use a tool..." required autocomplete="off"/>
+          <button type="submit" class="chat-send-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-row">
+        <div class="footer-brand">
+          <a href="#" class="nav-logo">N<span>EXUS</span></a>
+          <p class="footer-note">Demo storefront &bull; Vulnerable MCP lab &bull; For red-team demonstrations only.</p>
+        </div>
+        <div class="footer-links">
+          <a href="#home">Home</a>
+          <a href="#products">Products</a>
+          <a href="#about">About</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; 2026 NEXUS Tech Store. MCP scanner demo lab.
+      </div>
+    </div>
+  </footer>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
