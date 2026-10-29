@@ -1,0 +1,58 @@
+# ── Python ──
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# ── Virtual environments ──
+.venv/
+venv/
+ENV/
+env/
+
+# ── Distribution / packaging ──
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ── Testing ──
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# ── IDE ──
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── Environment & Secrets ──
+.env
+.env.*
+!.env.example
+.opencode/
+
+
+# ── Output files ──
+output/
+scan_output.txt
+
+# ── OS ──
+.DS_Store
+Thumbs.db
+
+# ── Logs ──
+*.log
+
+# ── Scratch / temp ──
+scratch/
+
+# Auth tokens — never commit live JWTs
+token.txt
+token_*.txt
+engagements/*/token_*.txt
+engagements/*/captures/
